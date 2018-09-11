@@ -9,7 +9,7 @@ from .vehicles import Bus, Train
 
 _API_KEY = getenv('MARTA_API_KEY')
 _CACHE_EXPIRE = int(getenv('MARTA_CACHE_EXPIRE', 30))
-_BASE_URL = 'http://developer.itsmarta.com/'
+_BASE_URL = 'http://developer.itsmarta.com'
 _TRAIN_PATH = '/RealtimeTrain/RestServiceNextTrain/GetRealtimeArrivals'
 _BUS_PATH = '/BRDRestService/RestBusRealTimeService/GetAllBus'
 _BUS_ROUTE_PATH = '/BRDRestService/RestBusRealTimeService/GetBusByRoute/'
