@@ -1,6 +1,6 @@
 import requests
 import requests_cache
-from json import loads
+from json import loads, JSONDecodeError
 from os import getenv
 from functools import wraps
 
@@ -41,8 +41,12 @@ def get_trains(line=None, station=None, destination=None, api_key=None):
     :param api_key (str): API key to override environment variable
     :return: list of Train objects
     """
-    response = requests.get('{}{}?apikey={}'.format(_BASE_URL, _TRAIN_PATH, api_key))
-    data = loads(response.text)
+    endpoint = '{}{}?apikey={}'.format(_BASE_URL, _TRAIN_PATH, api_key)
+    response = requests.get(endpoint)
+    try:
+        data = loads(response.text)
+    except JSONDecodeError:
+        raise APIKeyError('Your API key seems to be invalid. Try visiting {}.'.format(endpoint))
     trains = [Train(t) for t in data]
 
     trains = [t for t in trains if
