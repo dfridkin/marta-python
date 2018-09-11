@@ -43,10 +43,11 @@ def get_trains(line=None, station=None, destination=None, api_key=None):
     """
     endpoint = '{}{}?apikey={}'.format(_BASE_URL, _TRAIN_PATH, api_key)
     response = requests.get(endpoint)
-    try:
-        data = loads(response.text)
-    except JSONDecodeError:
+
+    if response.status_code == 401 or response.status_code == 403:
         raise APIKeyError('Your API key seems to be invalid. Try visiting {}.'.format(endpoint))
+
+    data = loads(response.text)
     trains = [Train(t) for t in data]
 
     trains = [t for t in trains if
